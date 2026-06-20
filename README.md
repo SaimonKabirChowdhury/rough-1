@@ -14,9 +14,10 @@ A blue-and-white web app prototype for financial advisors working in AAG / ASG-s
 
 ## Run locally
 
-No install is needed. Use Node.js:
+Install dependencies once, then start Vite:
 
 ```sh
+npm install
 npm run dev
 ```
 
@@ -33,14 +34,16 @@ npm run build
 npm run validate
 ```
 
-The deployable Worker artifact is generated in:
+The Vite build is generated in:
 
 ```text
-dist/server/index.js
+dist/
 ```
 
 Edit the app in:
 
 ```text
-worker/index.js
+index.html
+src/main.js
+src/style.css
 ```

@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AdvisorOS - AI Productivity Dashboard</title>
+    <script type="module" src="/src/main.js"></script>
+  </head>
+  <body>
+    <div class="app">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-mark">A</div>
+          <div>
+            <h1>AdvisorOS</h1>
+            <p>AI productivity for AAG / ASG style advisors</p>
+          </div>
+        </div>
+
+        <nav class="nav" aria-label="Main navigation">
+          <button class="active" data-section="dashboard"><span>◉</span><span>Command Center</span></button>
+          <button data-section="clients"><span>◇</span><span>Client Intelligence</span></button>
+          <button data-section="calendar"><span>▣</span><span>Calendar Planner</span></button>
+          <button data-section="events"><span>◎</span><span>Webinars & Network</span></button>
+          <button data-section="automation"><span>✦</span><span>AI Reminders</span></button>
+        </nav>
+
+        <div class="sidebar-card">
+          <p><b>Focus score</b><br>62% of today's advisor actions are complete. Keep the next action small and visible.</p>
+          <div class="mini-progress"><span id="sideProgress"></span></div>
+        </div>
+      </aside>
+
+      <main>
+        <div class="topbar">
+          <label class="search">
+            <span>⌕</span>
+            <input id="globalSearch" placeholder="Ask: What should I do next? Search client, task, meeting..." />
+          </label>
+          <div class="profile-pill">
+            <div class="avatar">SK</div>
+            <div>
+              <b>Advisor workspace</b><br>
+              <small>Blue focus mode</small>
+            </div>
+          </div>
+        </div>
+
+        <section id="dashboard" class="section active">
+          <div class="grid">
+            <div>
+              <section class="hero">
+                <div class="hero-content">
+                  <div class="date-line">📅 <span id="todayDate">Today</span></div>
+                  <h2>Good morning. Your advisor cockpit is ready.</h2>
+                  <p>Jarvis-style brief for money-management advisors: deadlines, follow-ups, meetings, client money leaks, and the next best action in one minimal dashboard.</p>
+                  <div class="hero-actions">
+                    <button class="btn secondary" id="focusBtn">Start 25-min focus block</button>
+                    <button class="btn" id="briefBtn">Generate morning brief</button>
+                    <button class="btn secondary" data-nav-target="clients">Analyze client expense</button>
+                  </div>
+                  <div class="stats">
+                    <div class="stat"><b id="doneCount">0/0</b><span>Checklist complete</span></div>
+                    <div class="stat"><b>4</b><span>Priority follow-ups</span></div>
+                    <div class="stat"><b>2</b><span>Client meetings</span></div>
+                    <div class="stat"><b>RM 840</b><span>Leak detected</span></div>
+                  </div>
+                </div>
+              </section>
+
+              <section class="panel pad" style="margin-top:22px;">
+                <div class="section-title">
+                  <div>
+                    <h3>Today's ADHD-friendly checklist</h3>
+                    <p>Four clear buckets. Small actions. Visible progress.</p>
+                  </div>
+                  <span class="badge" id="progressBadge">0% done</span>
+                </div>
+
+                <div class="task-board" id="taskBoard"></div>
+              </section>
+            </div>
+
+            <aside class="jarvis">
+              <div class="orb" aria-hidden="true"></div>
+              <h3>AI morning brief</h3>
+              <p id="jarvisText">You have 8 advisor actions today. Highest leverage: call warm leads before lunch, prepare Sarah's protection review, and clear one policy deadline.</p>
+              <div class="brief-list">
+                <div class="brief-item"><span>1</span><span>Client Sarah has high food delivery and subscriptions. Suggest budget reset before recommending new premium.</span></div>
+                <div class="brief-item"><span>2</span><span>Two leads went cold for 10+ days. AI suggests a soft value-based follow-up, not a sales push.</span></div>
+                <div class="brief-item"><span>3</span><span>Nearby wealth webinar at 6:30 PM may help networking. One tap to log it in calendar.</span></div>
+              </div>
+
+              <div style="height:18px;"></div>
+              <div class="panel pad" style="background:rgba(255,255,255,0.10); border-color:rgba(255,255,255,0.12); box-shadow:none;">
+                <div class="section-title">
+                  <div>
+                    <h3 style="color:white;">Quick AI capture</h3>
+                    <p style="color:#cfe5ff;">Chat, voice, or manual input.</p>
+                  </div>
+                </div>
+                <div class="capture">
+                  <textarea id="aiInput" placeholder="Example: Follow up with Daniel about medical card next Tuesday, high priority."></textarea>
+                  <div class="input-row">
+                    <select id="categoryInput">
+                      <option>Follow Ups</option>
+                      <option>Deadlines</option>
+                      <option>Client Meeting</option>
+                      <option>Team Meetings</option>
+                    </select>
+                    <button class="btn small secondary" id="voiceBtn">🎙 Voice</button>
+                    <button class="btn small" id="addTaskBtn">Add</button>
+                  </div>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section id="clients" class="section">
+          <div class="section-title">
+            <div>
+              <h3>Client intelligence and expense leak detection</h3>
+              <p>Turn client expense logging into automated AI tasks: detect leaks, suggest budget, debt, emergency fund, affordability and review actions.</p>
+            </div>
+            <button class="btn small" id="runAnalysisBtn">Run AI leak scan</button>
+          </div>
+
+          <div class="client-area">
+            <div class="panel pad">
+              <div class="section-title">
+                <div>
+                  <h3>Client profiles</h3>
+                  <p>Personal memory for stronger relationship.</p>
+                </div>
+              </div>
+              <div class="client-list" id="clientList"></div>
+            </div>
+
+            <div class="panel pad">
+              <div class="client-head">
+                <div>
+                  <h3 id="clientName" style="margin:0;">Client</h3>
+                  <p id="clientPersona">Profile summary</p>
+                </div>
+                <span class="badge" id="clientStage">Review due</span>
+              </div>
+
+              <div class="finance-grid" style="margin-top:18px;">
+                <div class="metric"><span>Income</span><b id="incomeMetric">RM 0</b></div>
+                <div class="metric"><span>Expenses</span><b id="expenseMetric">RM 0</b></div>
+                <div class="metric"><span>Debt</span><b id="debtMetric">RM 0</b></div>
+                <div class="metric"><span>Free cashflow</span><b id="cashMetric">RM 0</b></div>
+              </div>
+
+              <div class="bar-wrap" id="expenseBars"></div>
+
+              <div class="section-title" style="margin-top:20px;">
+                <div>
+                  <h3>AI detected money leaks</h3>
+                  <p>The advisor can convert each insight into a follow-up task.</p>
+                </div>
+              </div>
+              <div class="leak-grid" id="leakGrid"></div>
+
+              <div class="section-title" style="margin-top:22px;">
+                <div>
+                  <h3>Automated advisor tasks</h3>
+                  <p>Generated from income, fixed expenses, variable expenses, debt, insurance, family commitments, savings, and goals.</p>
+                </div>
+              </div>
+              <div class="plan-list" id="aiClientTasks"></div>
+            </div>
+          </div>
+        </section>
+
+        <section id="calendar" class="section">
+          <div class="section-title">
+            <div>
+              <h3>AI calendar plan</h3>
+              <p>Create a plan for today, this week, or this month without overloading the advisor.</p>
+            </div>
+            <div class="tabs" id="plannerTabs">
+              <button class="active" data-plan="today">Today</button>
+              <button data-plan="week">This week</button>
+              <button data-plan="month">This month</button>
+            </div>
+          </div>
+
+          <div class="columns">
+            <div class="feature-card">
+              <h4>Morning</h4>
+              <p>High-focus client work before distractions.</p>
+              <div class="plan-list" id="morningPlan"></div>
+            </div>
+            <div class="feature-card">
+              <h4>Afternoon</h4>
+              <p>Meetings, admin, proposal preparation.</p>
+              <div class="plan-list" id="afternoonPlan"></div>
+            </div>
+            <div class="feature-card">
+              <h4>Evening</h4>
+              <p>Networking, learning, follow-ups after client work hours.</p>
+              <div class="plan-list" id="eveningPlan"></div>
+            </div>
+          </div>
+        </section>
+
+        <section id="events" class="section">
+          <div class="section-title">
+            <div>
+              <h3>Nearby webinars and networking suggestions</h3>
+              <p>Advisor sees relevant events, chooses attend or ignore. Attending logs it to the calendar plan.</p>
+            </div>
+            <span class="badge">3 suggested near Petaling Jaya / KL</span>
+          </div>
+          <div class="event-list" id="eventList"></div>
+        </section>
+
+        <section id="automation" class="section">
+          <div class="section-title">
+            <div>
+              <h3>Proactive automated reminders</h3>
+              <p>AI decides what to remind, when to remind, and which tone to use based on client stage and urgency.</p>
+            </div>
+            <button class="btn small" id="generateReminderBtn">Generate reminder queue</button>
+          </div>
+
+          <div class="columns">
+            <div class="feature-card">
+              <h4>Reminder rules</h4>
+              <p>Timeout logic for follow-ups, renewals, birthdays, cold leads, document pending and client review.</p>
+              <label class="field" style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
+                AI decides send time
+                <input type="checkbox" checked style="width:20px; height:20px; accent-color:var(--blue-600);">
+              </label>
+              <div style="height:10px;"></div>
+              <select class="field">
+                <option>Smart tone: warm and helpful</option>
+                <option>Professional tone</option>
+                <option>Short WhatsApp tone</option>
+              </select>
+            </div>
+            <div class="feature-card">
+              <h4>Example automation</h4>
+              <p>If a lead has no reply for 4 days, send soft educational message. If documents are pending for 2 days, send checklist. If review is due, propose two meeting slots.</p>
+              <button class="btn small ghost" id="simulateBtn">Simulate next best reminder</button>
+            </div>
+            <div class="feature-card">
+              <h4>Learning connection</h4>
+              <p>When an advisor struggles with a client topic, the system recommends a mini learning module before the meeting.</p>
+              <button class="btn small ghost" data-nav-target="dashboard">Back to dashboard</button>
+            </div>
+          </div>
+
+          <div class="panel pad" style="margin-top:20px;">
+            <div class="section-title">
+              <div>
+                <h3>Reminder queue</h3>
+                <p>These are AI-generated but advisor-approved before sending.</p>
+              </div>
+            </div>
+            <div class="reminder-list" id="reminderList"></div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div class="toast" id="toast">Saved</div>
+  </body>
+</html>
