@@ -10,3 +10,4 @@ cp "$project_root/worker/index.js" "$dist_root/server/index.js"
 cp "$project_root/.openai/hosting.json" "$dist_root/.openai/hosting.json"
 
 echo "Built $dist_root"
+#
