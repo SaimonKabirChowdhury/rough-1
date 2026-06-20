@@ -40,6 +40,8 @@ The Vite build is generated in:
 dist/
 ```
 
+For Vercel, point the project root at this repository root so it can find package.json and index.html.
+
 Edit the app in:
 
 ```text
